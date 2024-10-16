@@ -79,6 +79,11 @@ namespace FormSerialisation
                     {
                         xmlSerialisedForm.WriteElementString("Text", ((DateTimePicker)childCtrl).Text);
                     }
+
+                    else if (childCtrl is RadioButton)
+                    {
+                        xmlSerialisedForm.WriteElementString("RadioButton", ((RadioButton)childCtrl).Checked.ToString());
+                    }
                     // this next line was taken from http://stackoverflow.com/questions/391888/how-to-get-the-real-value-of-the-visible-property
                     // which dicusses the problem of child controls claiming to have Visible=false even when they haven't, based on the parent
                     // having Visible=true
@@ -161,6 +166,10 @@ namespace FormSerialisation
                             case "System.Windows.Forms.DateTimePicker":
                                 ((System.Windows.Forms.DateTimePicker)ctrlToSet).Text = n["Text"].InnerText;
                                 break;
+
+                            case "System.Windows.Forms.RadioButton":
+                                ((System.Windows.Forms.RadioButton)ctrlToSet).Checked = Convert.ToBoolean(n["RadioButton"].InnerText);
+                                break;;
                         }
                         ctrlToSet.Visible = Convert.ToBoolean(n["Visible"].InnerText);
                         // if n has any children that are controls, deserialise them as well
